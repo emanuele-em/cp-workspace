@@ -1,4 +1,4 @@
-// https://codeforces.com/contest/1891/problem/A
+// https://codeforces.com/contest/1901/problem/A
 pub mod solution {
 
 use crate::io::input::Input;
@@ -7,31 +7,15 @@ use crate::io::output::Output;
 type PreCalc = ();
 
 fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &PreCalc) {
-    let n = input.read::<usize>();
-    let mut a = input.read_vec::<usize>(n);
-    let mut i = 0;
-    let mut start = 0;
-    while 2_isize.pow(i as u32)-1 < n as isize {
-        let end:isize = (2_isize.pow(i as u32))-1;
-        while start+1 <= end{
-            if a[start as usize] > a[start as usize +1]{
-                out.print_line("NO");
-                return
-            }
-            start += 1;
-        }
-        start += 1;
-        i += 1;
-    }
-    while start+1 < n as isize{
-        if a[start as usize] > a[start as usize +1]{
-            out.print_line("NO");
-            return
-        }
-        start += 1;
-    }
-    out.print_line("YES");
-    return
+   let n = input.read_int(); 
+   let x = input.read_int(); 
+   let a = input.read_vec(n as usize);
+   let mut max = a[0] as i32;
+
+   for i in 1..n{
+        max = max.max(a[i as usize]-a[i as usize-1]);
+   }
+   out.print_line(max.max((x-a.last().unwrap())*2))
 }
 
 pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
