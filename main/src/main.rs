@@ -1,4 +1,4 @@
-// https://codeforces.com/contest/1900/problem/C
+// https://codeforces.com/contest/1902/problem/C
 pub mod solution {
 
 use crate::io::input::Input;
@@ -7,50 +7,26 @@ use crate::io::output::Output;
 type PreCalc = ();
 
 fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &PreCalc) {
-    let n: i32 = input.read();
-    let vertices = input.read_vec::<char>(n as usize);
-    let mut tree = vec![(0,0); n as usize];
-    let mut leafs = vec![];
-    for i in 0..n {
-        tree[i as usize] = (input.read_size(), input.read_size());
-        if tree[i as usize] == (0, 0) {
-            leafs.push(i);
-        }
+    let n = input.read_size();
+    let mut a = input.read_vec::<isize>(n);
+    a.sort();
+    let mut min_val = a[0];
+    let mut mcm = 0;
+    for &num in a.iter().skip(1) {
+        mcm = mcm.max(num - min_val);
+        min_val = min_val.min(num);
+    }
+    dbg!(mcm);
+    a.push(a.last().unwrap() + mcm);
+    let mut ops = 0;
+    for i in 1..a.len() {
+        let diff = a[i] - a[i-1] as isize;
+        a[i] = a[i-1];
+        ops += diff / mcm;
     }
 
-    let mut min_changes = 3*10_i32.pow(5);
-
-    for leaf in leafs {
-        let mut node = leaf;
-        let mut i = 0;
-        let mut changes = 0;
-        while node != 0 && i < n {
-            if tree[i as usize].0 == node as usize{
-                if vertices[i as usize] == 'L' {
-                    tree[i as usize].0 = 0;
-                } else {
-                    changes+=1
-                }
-                node = i;
-                i = 0;
-            } else if tree[i as usize].1 == node as usize {
-                if vertices[i as usize] == 'R' {
-                    tree[i as usize].1 = 0;
-                } else {
-                    changes+=1
-                }
-                node = i;
-                i = 0;
-            } else{
-                i += 1;
-            }
-        }
-        min_changes = min_changes.min(changes);
-    }
-
-    out.print_line(min_changes);
+    out.print_line(ops);
     
-
 }
 
 pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
