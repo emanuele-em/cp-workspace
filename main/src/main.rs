@@ -1,4 +1,4 @@
-// https://codeforces.com/contest/1902/problem/C
+// https://codeforces.com/contest/1907/problem/C
 pub mod solution {
 
 use crate::io::input::Input;
@@ -7,26 +7,21 @@ use crate::io::output::Output;
 type PreCalc = ();
 
 fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &PreCalc) {
-    let n = input.read_size();
-    let mut a = input.read_vec::<isize>(n);
-    a.sort();
-    let mut min_val = a[0];
-    let mut mcm = 0;
-    for &num in a.iter().skip(1) {
-        mcm = mcm.max(num - min_val);
-        min_val = min_val.min(num);
+    let n = input.read();
+    let s = input.read_vec::<char>(n);
+    let mut map = std::collections::HashMap::new();
+    for c in s {
+        map.entry(c).and_modify(|x| *x+=1).or_insert(1);
     }
-    dbg!(mcm);
-    a.push(a.last().unwrap() + mcm);
-    let mut ops = 0;
-    for i in 1..a.len() {
-        let diff = a[i] - a[i-1] as isize;
-        a[i] = a[i-1];
-        ops += diff / mcm;
+    for (k, v) in map{
+        if v*2 > n {
+            out.print_line(2*v-n);
+            return;
+        }
+        
     }
 
-    out.print_line(ops);
-    
+    out.print_line(n%2);
 }
 
 pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
