@@ -1,7 +1,5 @@
 [workspace]
 members = [
-    "b_collecting_game",
-    "a_forked",
     "main",
     "algo_lib",
 ]
