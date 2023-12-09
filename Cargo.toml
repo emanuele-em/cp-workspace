@@ -1,8 +1,5 @@
 [workspace]
 members = [
-    "c_removal_of_unattractive_pairs",
-    "b_yetnotherroken_keoard",
-    "a_rook",
     "main",
     "algo_lib",
 ]
