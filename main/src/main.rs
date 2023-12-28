@@ -1,4 +1,4 @@
-// https://codeforces.com/contest/1904/problem/B
+// https://codeforces.com/contest/1915/problem/E
 pub mod solution {
 
 use crate::io::input::Input;
@@ -7,46 +7,9 @@ use crate::io::output::Output;
 type PreCalc = ();
 
 fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &PreCalc) {
+    let n = input.read::<usize>();
+    let mut a = input.read_vec::<usize>(n);
 
-    let n = input.read_size();
-    let a = input.read_vec::<usize>(n);
-    let mut sorted = a.iter().enumerate().collect::<Vec<(usize, &usize)>>();
-    sorted.sort_unstable_by_key(|x| x.1);
-
-    let mut memo = std::collections::HashMap::new();
-
-    for i in 0..n{
-        let start = sorted[i].0;
-        let score = sorted[i].1;
-        let mut count = 0;
-        
-        for el in sorted.iter().skip(i){
-            if score < *el.1{
-                break;
-            }
-            if score >= *sorted.last().unwrap().1{
-                count = sorted.len()-1;
-                break;
-            }
-            if start == el.0{
-                continue;
-            }
-            if score >= *el.1{
-                score += el.1;
-                count += 1;
-            }
-        }
-        sorted[i+1].1 += &score;
-        memo.insert(sorted[i].0, count);
-
-    }
-
-    for (i, el) in a.iter().enumerate(){
-        out.print(format!("{} ", memo.get(&i).unwrap()));
-    }
-
-    
-    out.print(format!("\n"));
 }
 
 pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
