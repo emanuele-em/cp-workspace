@@ -2,5 +2,4 @@
 members = [
     "main",
     "algo_lib",
-    "a_edge_checker",
 ]

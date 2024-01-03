@@ -1,6 +1,6 @@
-// https://atcoder.jp/contests/abc240/tasks/abc240_a
+// https://atcoder.jp/contests/abc220/tasks/abc220_a
 pub mod solution {
-//{"name":"A - Edge Checker","group":"AtCoder - AtCoder Beginner Contest 240","url":"https://atcoder.jp/contests/abc240/tasks/abc240_a","interactive":false,"timeLimit":2000,"tests":[{"input":"4 5\n","output":"Yes\n"},{"input":"3 5\n","output":"No\n"},{"input":"1 10\n","output":"Yes\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"AEdgeChecker"}}}
+//{"name":"A - Find Multiple","group":"AtCoder - AtCoder Beginner Contest 220","url":"https://atcoder.jp/contests/abc220/tasks/abc220_a","interactive":false,"timeLimit":2000,"tests":[{"input":"123 456 100\n","output":"200\n"},{"input":"630 940 314\n","output":"-1\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"AFindMultiple"}}}
 
 use crate::algo_lib::io::input::Input;
 use crate::algo_lib::io::output::Output;
@@ -8,14 +8,15 @@ use crate::algo_lib::io::output::Output;
 type PreCalc = ();
 
 fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &PreCalc) {
-    let a = input.read::<isize>();
-    let b = input.read::<isize>();
-    let diff = (a-b).abs();
-    if diff == 1 || (diff == 9 && (a == 10 || b == 10)){
-        out.print_line("Yes");
-        return
+    let (a, b, mut c) = (input.read_size(), input.read_size(), input.read_size());
+    while c < a{
+        c*=2;
     }
-    out.print_line("No");
+    if c <= b{
+        out.print_line(c);
+    } else {
+        out.print_line(-1);
+    }
 }
 
 pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
