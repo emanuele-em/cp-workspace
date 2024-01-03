@@ -1,15 +1,21 @@
-// https://codeforces.com/contest/1915/problem/E
+// https://atcoder.jp/contests/abc240/tasks/abc240_a
 pub mod solution {
+//{"name":"A - Edge Checker","group":"AtCoder - AtCoder Beginner Contest 240","url":"https://atcoder.jp/contests/abc240/tasks/abc240_a","interactive":false,"timeLimit":2000,"tests":[{"input":"4 5\n","output":"Yes\n"},{"input":"3 5\n","output":"No\n"},{"input":"1 10\n","output":"Yes\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"AEdgeChecker"}}}
 
-use crate::io::input::Input;
-use crate::io::output::Output;
+use crate::algo_lib::io::input::Input;
+use crate::algo_lib::io::output::Output;
 
 type PreCalc = ();
 
 fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &PreCalc) {
-    let n = input.read::<usize>();
-    let mut a = input.read_vec::<usize>(n);
-
+    let a = input.read::<isize>();
+    let b = input.read::<isize>();
+    let diff = (a-b).abs();
+    if diff == 1 || (diff == 9 && (a == 10 || b == 10)){
+        out.print_line("Yes");
+        return
+    }
+    out.print_line("No");
 }
 
 pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
@@ -21,7 +27,7 @@ pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
         MultiNumber,
         MultiEof,
     }
-    let test_type = TestType::MultiNumber;
+    let test_type = TestType::Single;
     match test_type {
         TestType::Single => solve(&mut input, &mut output, 1, &pre_calc),
         TestType::MultiNumber => {
@@ -45,6 +51,7 @@ pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
 
 
 }
+pub mod algo_lib {
 pub mod io {
 pub mod input {
 use std::fmt::Debug;
@@ -485,21 +492,19 @@ impl<T: Writable> Writable for Option<T> {
 }
 }
 }
+}
 fn main() {
     let mut sin = std::io::stdin();
     let input = if false {
-        crate::io::input::Input::new_with_size(&mut sin, 1)
+        crate::algo_lib::io::input::Input::new_with_size(&mut sin, 1)
     } else {
-        crate::io::input::Input::new(&mut sin)
+        crate::algo_lib::io::input::Input::new(&mut sin)
     };
-
     let mut stdout = std::io::stdout();
     let output = if false {
-        crate::io::output::Output::new_with_auto_flush(&mut stdout)
+        crate::algo_lib::io::output::Output::new_with_auto_flush(&mut stdout)
     } else {
-        crate::io::output::Output::new(&mut stdout)
+        crate::algo_lib::io::output::Output::new(&mut stdout)
     };
-
     crate::solution::run(input, output);
 }
-
