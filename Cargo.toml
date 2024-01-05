@@ -1,5 +1,9 @@
 [workspace]
 members = [
+    "c_long_sequence",
+    "c_swappable",
+    "b_permutation_check",
+    "b_nuts",
     "main",
     "algo_lib",
 ]

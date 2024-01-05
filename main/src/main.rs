@@ -1,6 +1,6 @@
-// https://atcoder.jp/contests/abc220/tasks/abc220_a
+// https://atcoder.jp/contests/abc220/tasks/abc220_c
 pub mod solution {
-//{"name":"A - Find Multiple","group":"AtCoder - AtCoder Beginner Contest 220","url":"https://atcoder.jp/contests/abc220/tasks/abc220_a","interactive":false,"timeLimit":2000,"tests":[{"input":"123 456 100\n","output":"200\n"},{"input":"630 940 314\n","output":"-1\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"AFindMultiple"}}}
+//{"name":"C - Long Sequence","group":"AtCoder - AtCoder Beginner Contest 220","url":"https://atcoder.jp/contests/abc220/tasks/abc220_c","interactive":false,"timeLimit":2000,"tests":[{"input":"3\n3 5 2\n26\n","output":"8\n"},{"input":"4\n12 34 56 78\n1000\n","output":"23\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"CLongSequence"}}}
 
 use crate::algo_lib::io::input::Input;
 use crate::algo_lib::io::output::Output;
@@ -8,15 +8,29 @@ use crate::algo_lib::io::output::Output;
 type PreCalc = ();
 
 fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &PreCalc) {
-    let (a, b, mut c) = (input.read_size(), input.read_size(), input.read_size());
-    while c < a{
-        c*=2;
+    // 3 5 2
+    // 26
+    //calculate the sum
+    // sum = 10
+    // min = 26/10 = 2
+    //calculate the start point
+    // last = 2*sum = 20
+    //loop until exceed
+    //20 + i = 23, min += 1
+    // 23 + i = 28 -> return min+1
+    let n = input.read::<usize>();
+    let a = input.read_vec::<usize>(n);
+    let x = input.read::<usize>();
+    let mut sum = a.iter().sum::<usize>(); // 10
+    let initial = x/sum*a.len(); // 26/10*3 -> 2*3 = 6
+    sum = sum*(x/sum); //20
+    let mut res = initial; // 6
+    while sum <= x {
+        sum += a[res-initial];
+        res += 1;
     }
-    if c <= b{
-        out.print_line(c);
-    } else {
-        out.print_line(-1);
-    }
+    out.print_line(res);
+    
 }
 
 pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
