@@ -1,6 +1,6 @@
-// https://atcoder.jp/contests/abc196/tasks/abc196_c
+// https://atcoder.jp/contests/abc258/tasks/abc258_c
 pub mod solution {
-//{"name":"C - Doubled","group":"AtCoder - AtCoder Beginner Contest 196","url":"https://atcoder.jp/contests/abc196/tasks/abc196_c","interactive":false,"timeLimit":2000,"tests":[{"input":"33\n","output":"3\n"},{"input":"1333\n","output":"13\n"},{"input":"10000000\n","output":"999\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"CDoubled"}}}
+//{"name":"C - Rotation","group":"AtCoder - AtCoder Beginner Contest 258","url":"https://atcoder.jp/contests/abc258/tasks/abc258_c","interactive":false,"timeLimit":2000,"tests":[{"input":"3 3\nabc\n2 2\n1 1\n2 2\n","output":"b\na\n"},{"input":"10 8\ndsuccxulnl\n2 4\n2 7\n1 2\n2 7\n1 1\n1 2\n1 3\n2 5\n","output":"c\nu\nc\nu\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"CRotation"}}}
 
 use crate::algo_lib::io::input::Input;
 use crate::algo_lib::io::output::Output;
@@ -8,19 +8,31 @@ use crate::algo_lib::io::output::Output;
 type PreCalc = ();
 
 fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &PreCalc) {
-    let n = input.read::<usize>();
-    let mut res = 1;
-
-    let f = |x: usize| {
-        let s = format!("{}{}", x.to_string(), x.to_string());
-        s.parse::<usize>().unwrap()
-    };
-
-    while f(res) <= n {
-        res+=1
+    let n = input.read_size();
+    let q = input.read_size();
+    let s = input.read_vec::<char>(n);
+    let mut start_index = 0;
+    for _ in 0..q{
+        let t = input.read_size();
+        let mut x = input.read_size();
+        x = x%n;
+        if t == 1{
+            if start_index > x{
+                start_index -= x;
+            } else {
+                start_index = n-(x-start_index);
+            }
+        } else {
+            let to_end = n-start_index;
+            //2
+            //rem = x-to_end
+            if x > to_end{
+                out.print_line(s[x-to_end-1]);
+            } else {
+                out.print_line(s[start_index+x-1]);
+            }
+        }
     }
-
-    out.print_line(res -1);
 }
 
 pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
