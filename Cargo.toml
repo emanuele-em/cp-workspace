@@ -1,13 +1,5 @@
 [workspace]
 members = [
-    "c_rotation",
-    "c_unexpressed",
-    "c_squared_error",
-    "c_doubled",
-    "c_long_sequence",
-    "c_swappable",
-    "b_permutation_check",
-    "b_nuts",
     "main",
     "algo_lib",
 ]
