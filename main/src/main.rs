@@ -1,6 +1,6 @@
-// https://codeforces.com/gym/420506/problem/B
+// https://cses.fi/problemset/task/1640
 pub mod solution {
-//{"name":"B. La camera dei cestini","group":"Codeforces - Imported from training.olinfo.it","url":"https://codeforces.com/gym/420506/problem/B","interactive":false,"timeLimit":2000,"tests":[{"input":"3 3 2\ns 0 1\nc 1 0\n","output":"2\n"},{"input":"5 6 7\ns 0 1\nc 1 0\ns 0 2\ns 1 2\ns 0 2\nc 2 2\nc 2 1\n","output":"4\n2\n4\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"BLaCameraDeiCestini"}}}
+//{"name":"Sum of Two Values","group":"CSES - CSES Problem Set","url":"https://cses.fi/problemset/task/1640","interactive":false,"timeLimit":1000,"tests":[{"input":"4 8\n2 7 5 1\n","output":"2 4\n"}],"testType":"single","input":{"type":"stdin","fileName":null,"pattern":null},"output":{"type":"stdout","fileName":null,"pattern":null},"languages":{"java":{"taskClass":"SumOfTwoValues"}}}
 
 use crate::algo_lib::io::input::Input;
 use crate::algo_lib::io::output::Output;
@@ -8,49 +8,33 @@ use crate::algo_lib::io::output::Output;
 type PreCalc = ();
 
 fn solve(input: &mut Input, out: &mut Output, _test_case: usize, _data: &PreCalc) {
-    let  n = input.read_size();
-    let  _m = input.read_size();
-    let  q = input.read_size();
-
-    let mut dict = std::collections::HashMap::<usize, Vec<usize>>::new();
-    for i in 0..n {
-        dict.entry(0).and_modify(|e| e.push(i)).or_insert_with(|| {
-            let mut v = vec![];
-            v.push(i);
-            v
-        });
+    let n = input.read::<usize>();
+    let target = input.read::<usize>();
+    let nums = input.read_vec::<usize>(n);
+    let mut sorted = vec![];
+    for (i, num) in nums.iter().enumerate(){
+        sorted.push((num, i));
     }
+    sorted.sort_by_key(|x| x.0);
+    let mut l = 0;
+    let mut r = nums.len()-1;
 
-    for _ in 0..q{
-        let query = input.read_char();
-        let a = input.read_size();
-        let second = input.read_size();
-        if query == 's'{
-            //from top of a to top of second
-            if let Some(vec) = dict.get_mut(&a){
-                if let Some(element) = vec.pop(){
-                    dict.entry(second).and_modify(|x| x.push(element)).or_insert_with(|| {
-                        let mut v = vec![];
-                        v.push(element);
-                        v
-                    });
-                }
-            }
+    while l < r{
+        let sum = sorted[l].0 + sorted[r].0;
+        if sum == target{
+            out.print_line(format!("{} {}", sorted[r].1+1, sorted[l].1+1));
+            return;
+        }
 
+        if sum > target{
+            r -= 1;
         } else {
-            //print the second_th of a
-            if let Some(vec) = dict.get_mut(&a){
-                if let Some(to_print) = vec.get(second){
-                    out.print_line(to_print);
-                } else{
-                    out.print_line(-1);
-                }
-            } else{
-                out.print_line(-1);
-            }
+            l+=1;
         }
     }
-    
+    out.print_line("IMPOSSIBLE");
+
+
 }
 
 pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
@@ -62,18 +46,16 @@ pub(crate) fn run(mut input: Input, mut output: Output) -> bool {
         MultiNumber,
         MultiEof,
     }
-    let test_type = TestType::MultiNumber;
+    let test_type = TestType::Single;
     match test_type {
-        _ => solve(&mut input, &mut output, 1, &pre_calc),
+        TestType::Single => solve(&mut input, &mut output, 1, &pre_calc),
         TestType::MultiNumber => {
-            println!("multinumber");
             let t = input.read();
             for i in 0usize..t {
                 solve(&mut input, &mut output, i + 1, &pre_calc);
             }
         }
         TestType::MultiEof => {
-            println!("multieof");
             let mut i = 1;
             while input.peek().is_some() {
                 solve(&mut input, &mut output, i, &pre_calc);
