@@ -1,5 +1,7 @@
 [workspace]
 members = [
+    "b_summation_game",
+    "a_satisfying_constraints",
     "main",
     "algo_lib",
 ]
